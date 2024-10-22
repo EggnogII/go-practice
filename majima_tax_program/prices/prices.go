@@ -11,10 +11,10 @@ type TaxIncludedPriceJob struct {
 func (job TaxIncludedPriceJob) Process() {
 	result := make(map[string]float64)
 	for _, price := range job.InputPrices {
-		resultStr := fmt.Sprintf("%f", price)
+		resultStr := fmt.Sprintf("%0.2f", price)
 		result[resultStr] = price * (1 + job.TaxRate)
 	}
-
+	fmt.Println(result)
 }
 
 func NewTaxIncludedPriceJob(taxRate float64) *TaxIncludedPriceJob {
