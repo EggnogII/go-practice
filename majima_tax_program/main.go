@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+
+	"example.com/majima-tax-program/filemanager"
 	"example.com/majima-tax-program/prices"
 )
 
@@ -9,7 +12,8 @@ func main() {
 
 	// Iterate through and associate
 	for _, taxRate := range taxRates {
-		priceJob := prices.NewTaxIncludedPriceJob(taxRate)
+		fm := filemanager.New("prices.txt", fmt.Sprintf("result_%.0f.json", taxRate*100))
+		priceJob := prices.NewTaxIncludedPriceJob(fm, taxRate)
 		priceJob.Process()
 	}
 
