@@ -1,11 +1,10 @@
 package prices
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 
 	"example.com/majima-tax-program/conversion"
+	"example.com/majima-tax-program/filemanager"
 )
 
 type TaxIncludedPriceJob struct {
@@ -15,29 +14,7 @@ type TaxIncludedPriceJob struct {
 }
 
 func (job *TaxIncludedPriceJob) LoadData() {
-	// Open the file
-	file, err := os.Open("prices.txt")
-	if err != nil {
-		fmt.Println("An error occured!")
-		fmt.Println(err)
-		return
-	}
-
-	// Read the contents
-	scanner := bufio.NewScanner(file)
-	var lines []string
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-
-	// Return an error if there is an error during read
-	err = scanner.Err()
-	if err != nil {
-		fmt.Println("Reading content failed")
-		fmt.Println(err)
-		file.Close()
-		return
-	}
+	lines, err := filemanager.ReadLines("prices.txt")
 
 	// Convert string valued input prices to float values
 	prices := make([]float64, len(lines))
@@ -45,12 +22,10 @@ func (job *TaxIncludedPriceJob) LoadData() {
 
 	if err != nil {
 		fmt.Println(err)
-		file.Close()
 		return
 	}
 
 	job.InputPrices = prices
-	file.Close()
 
 }
 
