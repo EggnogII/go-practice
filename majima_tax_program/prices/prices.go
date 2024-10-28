@@ -4,7 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strconv"
+
+	"example.com/majima-tax-program/conversion"
 )
 
 type TaxIncludedPriceJob struct {
@@ -38,21 +39,18 @@ func (job *TaxIncludedPriceJob) LoadData() {
 		return
 	}
 
+	// Convert string valued input prices to float values
 	prices := make([]float64, len(lines))
-	for lineIndex, line := range lines {
-		floatPrice, err := strconv.ParseFloat(line, 64)
+	prices, err = conversion.StringsToFloats(lines)
 
-		if err != nil {
-			fmt.Println("Converting price to float failed")
-			fmt.Println(err)
-			file.Close()
-			return
-		}
-
-		prices[lineIndex] = floatPrice
+	if err != nil {
+		fmt.Println(err)
+		file.Close()
+		return
 	}
 
 	job.InputPrices = prices
+	file.Close()
 
 }
 
