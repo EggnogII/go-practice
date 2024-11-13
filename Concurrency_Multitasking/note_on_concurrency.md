@@ -105,3 +105,42 @@ go greet("Have a good day", done)
 for _ := range done {
 }
 ```
+
+### Select Channels
+
+Select is similar to "switch" in that it will evaluate a channel that is presented
+
+This is beneficial to error handling channels presented to the emission
+
+```go
+for range taxRates {
+    select {
+        case err := <-errorChannel[]:
+            // Handle the error
+            if err != nil {
+                fmt.Println(err)
+            }
+        case <-doneChannels[index]:
+            fmt.Println("Done")
+    }
+}
+```
+
+### Defer
+
+Sometimes you need to defer certain operations while multitasking.
+
+```go
+func (fm FileManager) ReadLines() ([]string, error) {
+    file, err := os.Open(fm.InputFilePath)
+    if err != nil {
+        return nil, errors.New("Failed to open file.")
+    }
+    defer file.Close() // This will call file.Close() until the surrounding function returns
+
+    scanner := bufio.NewScanner(file)
+    var lines []string
+
+    ...
+}
+```
