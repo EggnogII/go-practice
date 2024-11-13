@@ -55,6 +55,8 @@ fmt.Println(<- done) // Waiting for channel to emit data, don't HAVE to print it
 
 ### Channels as Slices
 
+> Another option is to make use of channels as Arrays. This way each routine has its own emission data point should we care to know how/when things complete. I find this method more transparent and easy to follow even if it does bloat the verbosity of the program.
+
 ```go
 dones := make([]chan bool, 4)
 
@@ -77,6 +79,8 @@ for _, done := range dones {
 ```
 
 ### Single Done Channel
+
+> Using the `close` keyword we can tell go when a subroutine is done explicitly. This is useful for long operations that will take the longest to complete of all other ops
 
 ```go
 func slowGreet(phrase string, doneChan chan bool){
