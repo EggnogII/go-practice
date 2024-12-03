@@ -12,7 +12,7 @@ DELETE | `/events/<id>` | Delete an event
 POST | `/signup` | Create a new user
 POST | `/login` | Authenticate user
 POST | `/events/<id>/register` | Register user for event
-DELET | `/events/<id>/register` | Cancel Registration
+DELETE | `/events/<id>/register` | Cancel Registration
 
 
 
