@@ -15,5 +15,5 @@ POST | `/events/<id>/register` | Register user for event | Auth required
 DELETE | `/events/<id>/register` | Cancel Registration | Auth required
 
 
+> Authentication will be handled via JWT's (JSON Web Tokens)
 
-Authentication will be handled via JWT's (JSON Web Tokens)
