@@ -3,12 +3,14 @@ package main
 import (
 	"net/http"
 
+	"example.com/rest-project/db"
 	"example.com/rest-project/models"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
+	db.InitDB()
 	server := gin.Default()          // Configure HTTP Server, with logger and recovery attached
 	server.GET("/events", getEvents) //GET, POST, PUT, PATCH, DELETE
 	server.POST("/events", createEvent)
