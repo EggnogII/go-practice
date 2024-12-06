@@ -2,15 +2,39 @@ package db
 
 import (
 	"database/sql"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"os"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/lib/pq"
 )
+
+type Manifest struct {
+	Host         string `json:"host"`
+	Port         int    `json:"port"`
+	User         string `json:"user"`
+	Password     string `json:"password"`
+	DatabaseName string `json:"dbname"`
+}
 
 var DB *sql.DB
 
 func InitDB() {
+
+	jsonFile, json_err := os.Open("manifest.json")
+	if json_err != nil {
+		fmt.Println(json_err)
+	}
+	defer jsonFile.Close()
+
+	jsonBytes, _ := ioutil.ReadAll(jsonFile)
+	var manifest Manifest
+	json.Unmarshal(jsonBytes, &manifest)
+
+	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", manifest.Host, manifest.Port, manifest.User, manifest.Password, manifest.DatabaseName)
 	var err error
-	DB, err = sql.Open("sqlite3", "api.db")
+	DB, err = sql.Open("postgres", psqlconn)
 
 	if err != nil {
 		panic("Could not connect to database.")
@@ -39,6 +63,7 @@ func createTables() {
 	_, err := DB.Exec(createEventsTable)
 
 	if err != nil {
+		fmt.Print(err)
 		panic("Could not create events table")
 	}
 }
