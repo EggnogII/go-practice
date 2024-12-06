@@ -6,6 +6,6 @@ content-type: application/json
     "Name": "Test event",
     "Description": "Test description for event",
     "Location": "Test location",
-    "DateTime": "0001-01-01T00:00:00Z"
+    "DateTime": "2024-04-13T08:30:00Z"
 
 }
