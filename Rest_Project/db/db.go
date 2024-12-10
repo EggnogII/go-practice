@@ -46,9 +46,6 @@ func InitDB() {
 	createTables()
 }
 
-// Note: Need the environment variable CGO_ENABLED=1
-// IN ADDITON to that you need gcc
-// Note to self: Just use a modern db ffs
 func createTables() {
 	createEventsTable := `
 	CREATE TABLE IF NOT EXISTS events (
@@ -66,23 +63,3 @@ func createTables() {
 		panic("Could not create events table")
 	}
 }
-
-/*
-import "database/sql"
-
-var DB *sql.DB
-
-func InitDB() {
-	var err error
-	DB, err = sql.Open("sqlite3", "api.db")
-
-	if err != nil {
-		panic("Could not connect to database.")
-	}
-
-	DB.SetMaxOpenConns(10)
-	DB.SetMaxIdleConns(5)
-
-	createTables()
-}
-*/
