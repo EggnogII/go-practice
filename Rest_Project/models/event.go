@@ -15,8 +15,6 @@ type Event struct {
 	UserID      int
 }
 
-var events = []Event{}
-
 func (e Event) Save() error {
 	// Use $n as a safe way to inject values
 	query := `INSERT INTO events(name, description, location, datetime, user_id)
