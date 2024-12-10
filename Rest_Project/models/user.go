@@ -1,6 +1,9 @@
 package models
 
-import "example.com/rest-project/db"
+import (
+	"example.com/rest-project/db"
+	"example.com/rest-project/utils"
+)
 
 type User struct {
 	ID       int64
@@ -18,9 +21,14 @@ func (u User) Save() error {
 		return statement_err
 	}
 	defer statement.Close()
+	//Hash the password
+	hashedPassword, err := utils.HashPassword(u.Password)
+	if err != nil {
+		return err
+	}
 
 	var id_num int
-	result_err := statement.QueryRow(u.Email, u.Password).Scan(&id_num)
+	result_err := statement.QueryRow(u.Email, hashedPassword).Scan(&id_num)
 	if result_err != nil {
 		return result_err
 	}
