@@ -12,10 +12,10 @@ type Event struct {
 	Description string    `binding:"required"`
 	Location    string    `binding:"required"`
 	DateTime    time.Time `binding:"required"`
-	UserID      int
+	UserID      int64
 }
 
-func (e Event) Save() error {
+func (e *Event) Save() error {
 	// Use $n as a safe way to inject values
 	query := `INSERT INTO events(name, description, location, datetime, user_id)
 	VALUES ($1, $2, $3, $4, $5)
